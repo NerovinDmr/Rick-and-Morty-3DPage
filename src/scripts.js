@@ -1,36 +1,32 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js ";
 import gsap from "gsap";
-const url = new URL("./assets/rik.glb", import.meta.url);
-
-const renderer = new THREE.WebGLRenderer();
+const url = new URL("./assets/rick.glb", import.meta.url);
+const renderer = new THREE.WebGL1Renderer();
 const container = document.querySelector("#container");
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-
 const camera = new THREE.PerspectiveCamera(
   45,
   window.innerWidth / window.innerHeight,
   0.1,
   1000
 );
-
 camera.position.set(-0.55, 2.3, 4.66);
 camera.lookAt(0, 1.2, 0);
-
 const assetLoader = new GLTFLoader();
-let items = document.querySelectorAll(".block");
-let position = 1;
-assetLoader.load(url.href, function (gltf) {
-  const model = gltf.scene;
+assetLoader.load(url.href, function (gtlf) {
+  const model = gtlf.scene;
   model.position.y = 0.1;
   scene.add(model);
 });
-
+let position = 0;
+let items = document.querySelectorAll(".block");
 window.addEventListener("wheel", sceneMovement);
+window.addEventListener("wheel", elemViewer);
 function sceneMovement() {
   switch (position) {
     case 0:
@@ -81,7 +77,6 @@ function sceneMovement() {
     });
   }
 }
-window.addEventListener("wheel", elemViewer);
 function elemViewer() {
   for (let i = 0; i <= items.length; i++) {
     if (i === position) {
@@ -94,9 +89,7 @@ function elemViewer() {
 function animate() {
   renderer.render(scene, camera);
 }
-
 renderer.setAnimationLoop(animate);
-
 window.addEventListener("resize", function () {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
